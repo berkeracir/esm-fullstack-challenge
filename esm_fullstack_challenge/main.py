@@ -1,10 +1,18 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from esm_fullstack_challenge import __version__
 from esm_fullstack_challenge.routers import basic_router, dashboard_router, \
     drivers_router, races_router
-from esm_fullstack_challenge.config import CORS_ORIGINS
+from esm_fullstack_challenge.config import CORS_ORIGINS, LOG_LEVEL
+
+
+logging.basicConfig(
+    level=LOG_LEVEL,
+    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
+)
 
 
 app = FastAPI(title="F1 DATA API", version=__version__)

@@ -1,4 +1,5 @@
 from typing import List
+import logging
 
 from fastapi import APIRouter
 
@@ -6,6 +7,7 @@ from esm_fullstack_challenge.models import AutoGenModels
 from esm_fullstack_challenge.routers.utils import \
     get_route_list_function, get_route_id_function
 
+logger = logging.getLogger("routers/drivers.py")
 
 drivers_router = APIRouter()
 
