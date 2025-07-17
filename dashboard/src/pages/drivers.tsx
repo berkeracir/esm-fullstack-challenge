@@ -2,6 +2,7 @@ import {
   DataTable,
   DateField,
   List,
+  NumberField,
   Show,
   SimpleShowLayout,
   TextField,
@@ -33,7 +34,7 @@ export const DriverShow = () => (
     <SimpleShowLayout>
       <TextField source="id" />
       <TextField source="driver_ref" />
-      <DateField source="number" />
+      <NumberField source="number" />
       <TextField source="code" />
       <TextField source="forename" />
       <TextField source="surname" />
