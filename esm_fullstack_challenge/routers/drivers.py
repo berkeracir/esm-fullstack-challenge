@@ -68,7 +68,7 @@ def delete_driver(id: int):
     """
     Delete driver.
     """
-    # TODO: Status Code 204 could be used without response body
+    # NOTE: Status Code 204 could be used without response body
     success = db_delete_driver(id)
     if not success:
         raise HTTPException(

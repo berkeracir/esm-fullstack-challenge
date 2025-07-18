@@ -7,9 +7,9 @@ class DriverBaseDTO(BaseModel):
     code: str
     forename: str
     surname: str
-    dob: str  # TODO: use datetime.date
+    dob: str
     nationality: str
-    url: str  # TODO: HttpUrl
+    url: str
 
 
 class DriverCreateDTO(DriverBaseDTO):

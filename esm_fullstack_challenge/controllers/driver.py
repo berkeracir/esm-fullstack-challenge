@@ -61,6 +61,7 @@ def update_driver(id: int, update_dto: DriverUpdateDTO) -> bool:
     """
     Updates the driver with given id.
     """
+    # TODO: think about atomicity
     model_dump = update_dto.model_dump()
     fields = ', '.join([f'`{field}` = :{field}' for field in model_dump.keys()])
 

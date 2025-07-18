@@ -12,13 +12,19 @@ def get_db():
         pass
 
 
-def get_next_id(table_name: str) -> int:
-    # TODO: define queries as constants
-    # TODO: move create_table_sql query execution to app initialization
+def create_id_sequence_table_if_not_exists():
     create_table_sql = dedent("""
         CREATE TABLE IF NOT EXISTS `id_sequence`
             (`table_name` TEXT PRIMARY KEY, `last_id` INTEGER NOT NULL DEFAULT 0)
     """).strip()
+    db = next(get_db())
+    with db.get_connection() as conn:
+        cur = conn.cursor()
+        cur.execute(create_table_sql)
+
+
+def get_next_id(table_name: str) -> int:
+    # TODO: define queries as constants
     insert_into_sql = dedent(f"""
         INSERT OR IGNORE INTO `id_sequence` (`table_name`, `last_id`)
             VALUES ("{table_name}", (SELECT IFNULL(MAX(`id`), 0) FROM `{table_name}`))
@@ -33,9 +39,8 @@ def get_next_id(table_name: str) -> int:
     db = next(get_db())
     with db.get_connection() as conn:
         cur = conn.cursor()
-        cur.execute(create_table_sql)
         cur.execute(insert_into_sql)
-        # TODO: make get_last_id and update_last_id queries atomic
+        # NOTE: make get_last_id and update_last_id queries atomic
         cur.execute(get_last_id_sql, {"table_name": table_name})
         row = cur.fetchone()
 
