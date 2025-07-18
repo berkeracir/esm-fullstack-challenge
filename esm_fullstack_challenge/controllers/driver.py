@@ -43,7 +43,8 @@ def create_driver(create_dto: DriverCreateDTO) -> Optional[int]:
 
     query = dedent(
         f'''
-            INSERT INTO `{DRIVER_TABLE}`({fields}) VALUES({values_placeholder})
+            INSERT INTO `{DRIVER_TABLE}`({fields})
+                VALUES({values_placeholder})
         '''
     ).strip()
 
@@ -67,10 +68,32 @@ def update_driver(id: int, update_dto: DriverUpdateDTO) -> bool:
         f'''
             UPDATE `{DRIVER_TABLE}`
             SET {fields}
-            WHERE `id`=:id
+            WHERE `id` = :id
         '''
     ).strip()
     parameters = {'id': id, **model_dump}
+
+    db = next(get_db())
+    with db.get_connection() as conn:
+        cur = conn.cursor()
+        cur.execute(query, parameters)
+        conn.commit()
+        row_count = cur.rowcount
+
+    return row_count == 1
+
+
+def delete_driver(id: int) -> bool:
+    """
+    Deletes the driver with given id.
+    """
+    query = dedent(
+        f'''
+            DELETE FROM `{DRIVER_TABLE}`
+            WHERE `id` = :id
+        '''
+    ).strip()
+    parameters = {'id': id}
 
     db = next(get_db())
     with db.get_connection() as conn:

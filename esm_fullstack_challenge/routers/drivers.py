@@ -1,9 +1,9 @@
-from typing import List
+from typing import List, Dict
 import logging
 
 from fastapi import APIRouter, HTTPException, status
 
-from esm_fullstack_challenge.controllers.driver import update_driver as db_update_driver, create_driver as db_create_driver
+from esm_fullstack_challenge.controllers.driver import update_driver as db_update_driver, create_driver as db_create_driver, delete_driver as db_delete_driver
 from esm_fullstack_challenge.models import AutoGenModels
 from esm_fullstack_challenge.models.driver import DriverUpdateDTO, DriverCreateDTO
 from esm_fullstack_challenge.routers.utils import get_route_list_function, get_route_id_function
@@ -63,21 +63,17 @@ def update_driver(id: int, update_dto: DriverUpdateDTO):
 
 
 # Add route to delete driver
-@drivers_router.delete('/{id}', response_model=table_model)
+@drivers_router.delete('/{id}', response_model=Dict[str, int])
 def delete_driver(id: int):
     """
     Delete driver.
     """
-    updated_driver = {
-        'id': f'{id}',
-        'driver_ref': 'Doe',
-        'number': '12345',
-        'code': 'DOE',
-        'forename': 'John',
-        'surname': 'Doe',
-        'dob': '1990-01-01',
-        'nationality': 'American',
-        'url': 'http://example.com/driver/12345',
-    }
+    # TODO: Status Code 204 could be used without response body
+    success = db_delete_driver(id)
+    if not success:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f'Driver with id={id} does not exist!'
+        )
 
-    return table_model(**updated_driver)
+    return {"id": id}

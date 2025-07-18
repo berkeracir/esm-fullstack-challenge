@@ -13,7 +13,7 @@ def get_db():
 
 
 def get_next_id(table_name: str) -> int:
-    # TODO: make queries static
+    # TODO: define queries as constants
     # TODO: move create_table_sql query execution to app initialization
     create_table_sql = dedent("""
         CREATE TABLE IF NOT EXISTS `id_sequence`
