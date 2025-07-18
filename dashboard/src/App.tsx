@@ -17,7 +17,12 @@ import { authProvider } from "./authProvider";
 import { dataProvider } from "./dataProvider";
 
 import { RaceList, RaceShow } from "./pages/races";
-import { DriverCreate, DriverEdit, DriverList, DriverShow } from "./pages/drivers";
+import {
+  DriverCreate,
+  DriverEdit,
+  DriverList,
+  DriverShow,
+} from "./pages/drivers";
 
 export const App = () => (
   <Admin

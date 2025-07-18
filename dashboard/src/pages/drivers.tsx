@@ -82,7 +82,7 @@ export const DriverCreate = () => (
       <TextInput source="url" validate={validateUrl} />
     </SimpleForm>
   </Create>
-)
+);
 
 export const DriverEdit = () => (
   <Edit>
