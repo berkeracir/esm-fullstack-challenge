@@ -13,10 +13,12 @@ def get_db():
 
 
 def create_id_sequence_table_if_not_exists():
-    create_table_sql = dedent("""
+    create_table_sql = dedent(
+        """
         CREATE TABLE IF NOT EXISTS `id_sequence`
             (`table_name` TEXT PRIMARY KEY, `last_id` INTEGER NOT NULL DEFAULT 0)
-    """).strip()
+        """
+    ).strip()
     db = next(get_db())
     with db.get_connection() as conn:
         cur = conn.cursor()
