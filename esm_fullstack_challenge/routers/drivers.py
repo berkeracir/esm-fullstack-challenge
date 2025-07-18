@@ -1,11 +1,13 @@
 from typing import List
 import logging
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, status
 
+from esm_fullstack_challenge.controllers.driver import update_driver as db_update_driver, create_driver as db_create_driver
 from esm_fullstack_challenge.models import AutoGenModels
-from esm_fullstack_challenge.routers.utils import \
-    get_route_list_function, get_route_id_function
+from esm_fullstack_challenge.models.driver import DriverUpdateDTO, DriverCreateDTO
+from esm_fullstack_challenge.routers.utils import get_route_list_function, get_route_id_function
+
 
 logger = logging.getLogger("routers/drivers.py")
 
@@ -30,44 +32,34 @@ drivers_router.add_api_route(
 
 # Add route to create a new driver
 @drivers_router.post('', response_model=table_model)
-def create_driver():
+def create_driver(create_dto: DriverCreateDTO):
     """
     Create a new driver.
     """
-    new_driver = {
-        'id': 12345,
-        'driver_ref': 'Doe',
-        'number': '12345',
-        'code': 'DOE',
-        'forename': 'John',
-        'surname': 'Doe',
-        'dob': '1990-01-01',
-        'nationality': 'American',
-        'url': 'http://example.com/driver/12345',
-    }
+    new_id = db_create_driver(create_dto)
+    if new_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Driver could not be created.'
+        )
 
-    return table_model(**new_driver)
+    return table_model(id=new_id, **(create_dto.model_dump()))
 
 
 # Add route to update driver
 @drivers_router.put('/{id}', response_model=table_model)
-def update_driver(id: int):
+def update_driver(id: int, update_dto: DriverUpdateDTO):
     """
     Update driver.
     """
-    updated_driver = {
-        'id': f'{id}',
-        'driver_ref': 'Doe',
-        'number': '12345',
-        'code': 'DOE',
-        'forename': 'John',
-        'surname': 'Doe',
-        'dob': '1990-01-01',
-        'nationality': 'American',
-        'url': 'http://example.com/driver/12345',
-    }
+    success = db_update_driver(id, update_dto)
+    if not success:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f'Driver with id={id} does not exist!'
+        )
 
-    return table_model(**updated_driver)
+    return table_model(id=id, **(update_dto.model_dump()))
 
 
 # Add route to delete driver

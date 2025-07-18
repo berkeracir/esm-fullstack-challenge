@@ -1,11 +1,17 @@
 import {
-  DataTable,
+  Create,
   DateField,
+  DateInput,
+  DataTable,
+  Edit,
   List,
   NumberField,
+  NumberInput,
   Show,
+  SimpleForm,
   SimpleShowLayout,
   TextField,
+  TextInput,
   UrlField,
 } from "react-admin";
 
@@ -43,4 +49,35 @@ export const DriverShow = () => (
       <UrlField source="url" />
     </SimpleShowLayout>
   </Show>
+);
+
+export const DriverCreate = () => (
+  <Create>
+    <SimpleForm>
+      <TextInput source="driver_ref" />
+      <NumberInput source="number" />
+      <TextInput source="code" />
+      <TextInput source="forename" />
+      <TextInput source="surname" />
+      <DateInput source="dob" />
+      <TextInput source="nationality" />
+      <TextInput source="url" /> {/* TODO: URL validation */}
+    </SimpleForm>
+  </Create>
+)
+
+export const DriverEdit = () => (
+  <Edit>
+    <SimpleForm>
+      <TextInput source="id" disabled />
+      <TextInput source="driver_ref" />
+      <NumberInput source="number" />
+      <TextInput source="code" />
+      <TextInput source="forename" />
+      <TextInput source="surname" />
+      <DateInput source="dob" />
+      <TextInput source="nationality" />
+      <TextInput source="url" /> {/* TODO: URL validation */}
+    </SimpleForm>
+  </Edit>
 );
