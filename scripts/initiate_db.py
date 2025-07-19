@@ -7,6 +7,8 @@ from tempfile import TemporaryDirectory
 import kagglehub
 import pandas as pd
 
+from esm_fullstack_challenge.dependencies import create_id_sequence_table_if_not_exists
+
 
 TABLE_ID_MAP = {
     'circuits': {
@@ -69,3 +71,4 @@ def download_data():
 if __name__ == "__main__":
     print("Downloading data...")
     download_data()
+    create_id_sequence_table_if_not_exists()

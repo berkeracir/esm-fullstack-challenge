@@ -22,7 +22,7 @@ def get_id_column_name(table: str) -> str | None:
 
 
 def get_route_list_function(table: str, table_model: BaseModel) -> Callable:
-    """Generates an enpoint function to list all items.
+    """Generates an endpoint function to list all items.
 
     Args:
         table (str): Table name.
@@ -70,7 +70,7 @@ def get_route_list_function(table: str, table_model: BaseModel) -> Callable:
 
 
 def get_route_id_function(table: str, table_model: BaseModel) -> Callable:
-    """Generates an enpoint function to get an item by ID.
+    """Generates an endpoint function to get an item by ID.
 
     Args:
         table (str): Table name.

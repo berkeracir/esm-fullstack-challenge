@@ -1,13 +1,29 @@
+from contextlib import asynccontextmanager
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from esm_fullstack_challenge import __version__
+from esm_fullstack_challenge.dependencies import create_id_sequence_table_if_not_exists
 from esm_fullstack_challenge.routers import basic_router, dashboard_router, \
     drivers_router, races_router
-from esm_fullstack_challenge.config import CORS_ORIGINS
+from esm_fullstack_challenge.config import CORS_ORIGINS, LOG_LEVEL
 
 
-app = FastAPI(title="F1 DATA API", version=__version__)
+logging.basicConfig(
+    level=LOG_LEVEL,
+    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
+)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_id_sequence_table_if_not_exists()
+    yield
+
+
+app = FastAPI(title="F1 DATA API", version=__version__, lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS.split(','),
