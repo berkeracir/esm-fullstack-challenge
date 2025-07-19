@@ -1,8 +1,10 @@
 import sqlite3
-from typing import List, Dict
+from typing import List, Dict, Optional
 
 import pandas as pd
 from pydantic import create_model, Field, BaseModel
+
+from esm_fullstack_challenge.config import DB_FILE
 
 
 def get_all_table_names(conn: sqlite3.Connection) -> List[str]:
@@ -13,15 +15,17 @@ def get_all_table_names(conn: sqlite3.Connection) -> List[str]:
     return [row[0] for row in cursor.fetchall()]
 
 
-def autogen_models(db: str = 'data.db') -> Dict[str, BaseModel]:
+def autogen_models(db: Optional[str] = None) -> Dict[str, BaseModel]:
     """Generate Pydantic models for all tables in the SQLite database.
 
     Args:
-        db (str, optional): Path to SQLite DB file. Defaults to 'data.db'.
+        db (str, optional): Path to SQLite DB file. Defaults to None. If None, DB_FILE config variable used.
 
     Returns:
         Dict[str, BaseModel]: Returns a dictionary where keys are table names and values are Pydantic models.
     """
+    if db is None:
+        db = DB_FILE
     conn = sqlite3.connect(db)
     tables = get_all_table_names(conn)
     models = {}

@@ -6,7 +6,7 @@ from fastapi import APIRouter, HTTPException, status
 from esm_fullstack_challenge.controllers.driver import (
     update_driver as db_update_driver,
     create_driver as db_create_driver,
-    delete_driver as db_delete_driver
+    delete_driver as db_delete_driver,
 )
 from esm_fullstack_challenge.models import AutoGenModels
 from esm_fullstack_challenge.models.driver import DriverUpdateDTO, DriverCreateDTO
