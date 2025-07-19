@@ -8,10 +8,10 @@ from esm_fullstack_challenge.models.driver import DriverDTO, DriverUpdateDTO, Dr
 from esm_fullstack_challenge.routers.utils import get_route_id_function
 
 
-logger = logging.getLogger("controllers/driver.py")
+logger = logging.getLogger('controllers/driver.py')
 
 
-DRIVER_TABLE = "drivers"
+DRIVER_TABLE = 'drivers'
 TABLE_MODEL = AutoGenModels[DRIVER_TABLE]
 
 _get_driver_from_db = get_route_id_function('drivers', TABLE_MODEL)
@@ -36,7 +36,7 @@ def create_driver(create_dto: DriverCreateDTO) -> Optional[int]:
     keys = [field for field in model_dump.keys()]
     values = [model_dump[key] for key in keys]
 
-    keys = ["id"] + keys
+    keys = ['id'] + keys
     values = [next_driver_id] + values
     fields = ','.join(f'`{key}`' for key in keys)
     values_placeholder = ','.join(['?'] * len(keys))

@@ -43,11 +43,11 @@ def get_next_id(table_name: str) -> int:
         cur = conn.cursor()
         cur.execute(insert_into_sql)
         # NOTE: make get_last_id and update_last_id queries atomic
-        cur.execute(get_last_id_sql, {"table_name": table_name})
+        cur.execute(get_last_id_sql, {'table_name': table_name})
         row = cur.fetchone()
 
         new_id = row[0] + 1
-        cur.execute(update_last_id_sql, {"new_id": new_id, "table_name": table_name})
+        cur.execute(update_last_id_sql, {'new_id': new_id, 'table_name': table_name})
         conn.commit()
 
     return new_id

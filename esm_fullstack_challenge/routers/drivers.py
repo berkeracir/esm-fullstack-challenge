@@ -13,7 +13,7 @@ from esm_fullstack_challenge.models.driver import DriverUpdateDTO, DriverCreateD
 from esm_fullstack_challenge.routers.utils import get_route_list_function, get_route_id_function
 
 
-logger = logging.getLogger("routers/drivers.py")
+logger = logging.getLogger('routers/drivers.py')
 
 drivers_router = APIRouter()
 
@@ -80,4 +80,4 @@ def delete_driver(id: int):
             detail=f'Driver with id={id} does not exist!'
         )
 
-    return {"id": id}
+    return {'id': id}
