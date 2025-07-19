@@ -41,7 +41,6 @@ Please create a public GitHub repo and share the link via email.
 * Any documentation provided will help us better understand your work.
 * Please take no longer than 72 hours to complete the challenge once you have begun.
 
-
 ## How to run unittest?
 
 ```
